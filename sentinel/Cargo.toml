@@ -1,0 +1,9 @@
+[package]
+name = "sentinel"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+common-lib = {path = "../common-lib"}
+tokio = { version = "1", features = ["full"] }
+clap = { version = "4.0", features = ["derive"] } # Command Line Parsing
