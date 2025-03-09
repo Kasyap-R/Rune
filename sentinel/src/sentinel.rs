@@ -1,39 +1,34 @@
 use crate::config::SentinelConfig;
-use crate::topic::Topic;
-use crate::types::BrokerID;
+use crate::metadata::ClusterMetadata;
+
+use anyhow::{Context, Result};
 use clap::Parser;
-use std::{
-    cmp::Reverse,
-    collections::{BinaryHeap, HashMap, HashSet},
-    net::SocketAddr,
+use reqwest::Client;
+use std::sync::Arc;
+use tokio::{
+    sync::Mutex,
+    time::{Duration, sleep},
 };
 
-#[derive(Default)]
-struct ClusterMetadata {
-    brokers: HashMap<BrokerID, SocketAddr>,
-    topics: HashSet<Topic>,
-    free_ids: BinaryHeap<Reverse<BrokerID>>, // Stores freed up broker_ids (i.e. for when a broker
-    // disconnects)
-    next_broker_id: BrokerID,
-}
-
 pub struct Sentinel {
-    config: SentinelConfig,
-    metadata: ClusterMetadata,
+    pub config: Arc<SentinelConfig>,
+    pub metadata: Arc<Mutex<ClusterMetadata>>,
+    pub client: Arc<Client>,
 }
 
 impl Sentinel {
-    pub fn new() -> Sentinel {
-        Sentinel {
-            config: SentinelConfig::parse(),
-            metadata: ClusterMetadata::default(),
-        }
+    pub fn new() -> Arc<Self> {
+        Arc::new(Sentinel {
+            config: Arc::new(SentinelConfig::parse()),
+            metadata: Arc::new(Mutex::new(ClusterMetadata::default())),
+            client: Arc::new(Client::new()),
+        })
     }
 
-    pub async fn run(self) {
-        println!(
-            "Running Sentinel on port: {:#?}, storing metadata in: {:#?}",
-            self.config.port, self.config.data_dir
-        );
+    pub async fn run(&self) -> Result<()> {
+        loop {
+            sleep(Duration::from_secs(1)).await;
+        }
+        Ok(())
     }
 }

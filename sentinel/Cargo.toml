@@ -5,5 +5,10 @@ edition = "2024"
 
 [dependencies]
 common-lib = {path = "../common-lib"}
-tokio = { version = "1", features = ["full"] }
+tokio = { version = "1", features = ["full"] } # Async runtime
 clap = { version = "4.0", features = ["derive"] } # Command Line Parsing
+rocket = { version = "0.5", features = ["json"] }  # Web Server
+reqwest = { version = "0.11", features = ["json"] } # HTTP Requests
+uuid = { version = "1.15.1", features = ["v4"] } # UUID support
+anyhow = { version = "1.0", default-features = false } # Improved Error Handling
+serde = { version = "1.0", features = ["derive"] } # Serialization

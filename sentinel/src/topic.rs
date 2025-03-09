@@ -1,4 +1,4 @@
-use crate::types::BrokerID;
+use common_lib::types::BrokerID;
 
 pub struct Topic {
     name: String,

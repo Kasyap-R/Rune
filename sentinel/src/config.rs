@@ -5,7 +5,7 @@ use std::path::PathBuf;
 pub struct SentinelConfig {
     /// Port that sentinel will be hosted on
     #[arg(short, long)]
-    pub port: u32,
+    pub port: u16,
 
     /// Path where cluster metadata will be stored
     #[arg(short, long)]
